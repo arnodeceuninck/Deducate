@@ -1,0 +1,3 @@
+We found a match for you!
+{{ future_student }} wants to study {{ richting }}. Can you help them? We recommend to start a video chat.
+You can contact them by sending a mail to {{ email }}. We will send them also an email with your contact details.

@@ -1,0 +1,17 @@
+{% extends "cc_base.html" %}
+
+{% block styles %}
+.has-bg-img { background: url('/static/hero2.jpg')center center; background-size:cover; background-attachment:fixed; }
+{% endblock %}
+
+{% block body %}
+ <section class="section">
+    <div class="container">
+      <h1 class="title">
+        Wat is je huidige situatie?
+      </h1>
+      <a class="button is-primary" href="{{ url_for('middelbaar') }}">Ik wil hulp bij het maken van mijn studiekeuze</a><br><br>
+      <a class="button is-primary" href="{{ url_for('register', type="volunteer") }}">Ik wil mensen helpen bij het maken van hun keuze</a>
+    </div>
+</section>
+{% endblock %}

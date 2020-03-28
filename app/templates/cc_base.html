@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% block metadata %}{%endblock%}
+
+{#    <link rel="icon" href="/static/wheel.png">#}
+
+    <title>CareerCoach</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+
+<!--    Javascript for deleting notifications-->
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', () => {
+        (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+            $notification = $delete.parentNode;
+
+            $delete.addEventListener('click', () => {
+                $notification.parentNode.removeChild($notification);
+            });
+        });
+    });</script>
+
+<!--    Javascript for the burger menu-->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // Get all "navbar-burger" elements
+      const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+      // Check if there are any navbar burgers
+      if ($navbarBurgers.length > 0) {
+
+        // Add a click event on each of them
+        $navbarBurgers.forEach( el => {
+          el.addEventListener('click', () => {
+
+            // Get the target from the "data-target" attribute
+            const target = el.dataset.target;
+            const $target = document.getElementById(target);
+
+            // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+            el.classList.toggle('is-active');
+            $target.classList.toggle('is-active');
+
+          });
+        });
+      }
+
+    });
+    </script>
+
+    {% block imports %}{% endblock %}
+
+    <style type="text/css">
+
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+
+        .Site {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        .Site-content {
+            flex: 1;
+        }
+
+        .navigation {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        {% block styles %}{% endblock %}
+
+    </style>
+
+    {% block head %}{% endblock %}
+
+</head>
+
+<body class="Site">
+
+<nav class="navbar navigation" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="{{ url_for('index') }}">
+            <img src="/static/logo.svg" height="150" width="150">
+        </a>
+    </div>
+</nav>
+
+<main class="Site-content">
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="notification">
+        <button class="delete"></button>
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    {% block body %}{% endblock %}
+</main>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>
+            <strong>CareerCoach</strong> made for <strong>#HackTheCrisis</strong>.
+        </p>
+    </div>
+</footer>
+
+</body>
+</html>
