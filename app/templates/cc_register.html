@@ -27,7 +27,7 @@
                             <option value="{{ richting }}">
                         {% endfor %}
                     </datalist>
-                    <div class="field autocomplete">
+                    <div class="field">
                         {{ form.richting(class="input", type="text", placeholder="Studierichting", list="richtingen") }}
                         <ul>
                             {% for error in form.richting.errors %}
@@ -40,7 +40,7 @@
                             <option value="{{ location }}">
                         {% endfor %}
                     </datalist>
-                    <div class="field autocomplete">
+                    <div class="field">
                         {{ form.locatie(class="input", type="text", placeholder="Plaats", list="locaties") }}
                         <ul>
                             {% for error in form.richting.errors %}
