@@ -20,7 +20,7 @@
                 {{ form.hidden_tag() }}
                 <div class="container">
                     <div class="field">
-                        {{ form.name(class="input", placeholder="Naam", type="text") }}
+                        {{ form.name(class="input", placeholder="Naam*", type="text") }}
                     </div>
                     <datalist id="richtingen">
                         {% for richting in richtingen %}
@@ -35,8 +35,21 @@
                             {% endfor %}
                         </ul>
                     </div>
+                    <datalist id="locaties">
+                        {% for location in locations %}
+                            <option value="{{ location }}">
+                        {% endfor %}
+                    </datalist>
+                    <div class="field autocomplete">
+                        {{ form.locatie(class="input", type="text", placeholder="Plaats", list="locaties") }}
+                        <ul>
+                            {% for error in form.richting.errors %}
+                                <li>{{ error }} Dit kan je <a href="{{ url_for('new_richting') }}">hier</a> doen.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                     <div class="field">
-                        {{ form.email(class="input", type="text", placeholder="Emailadres") }}
+                        {{ form.email(class="input", type="text", placeholder="Emailadres*") }}
                         <ul>
                             {% for error in form.email.errors %}
                                 <li>{{ error }}</li>

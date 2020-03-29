@@ -8,6 +8,7 @@ class RegistrationForm(FlaskForm):
     name = StringField('Naam', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
     richting = StringField('Richting', validators=[DataRequired()])
+    locatie = StringField('Richting', validators=[DataRequired()])
     submit = SubmitField('Verzenden')
 
     def validate_richting(self, name):

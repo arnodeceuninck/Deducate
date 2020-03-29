@@ -21,6 +21,9 @@ def register(type):
     richtingen = list()
     for richting in richtingen_db:
         richtingen.append(richting.name)
+    locations = list()
+    for location in Locatie.query.all():
+        locations.append(location.name)
     form = RegistrationForm()
     if form.validate_on_submit():
         # Check whether richting already in database, add if required
@@ -31,11 +34,20 @@ def register(type):
             db.session.commit()
         # Get the id of the current richting
         richting_id = Richting.query.filter_by(name=richting).first().id
+        # Check whether richting already in database, add if required
+        location = form.locatie.data
+        if not location in locations:
+            new_location = Locatie(name=location)
+            db.session.add(new_location)
+            db.session.commit()
+        location_id = Locatie.query.filter_by(name=location).first().id
+        # Get the id of the current richting
+        richting_id = Richting.query.filter_by(name=richting).first().id
         # Create a new user
         if toekomstige_student:
-            user = ToekomstigStudent(email=form.email.data, name=form.name.data, richting=richting_id)
+            user = ToekomstigStudent(email=form.email.data, name=form.name.data, richting=richting_id, locatie=location_id)
         else:
-            user = HuidigStudent(email=form.email.data, name=form.name.data, richting=richting_id)
+            user = HuidigStudent(email=form.email.data, name=form.name.data, richting=richting_id, locatie=location_id)
         db.session.add(user)
         db.session.commit()
         # # Check whether there are users studying the same and send them an email
