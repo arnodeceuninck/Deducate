@@ -17,12 +17,12 @@ def middelbaar():
 @app.route('/register/<type>', methods=['GET', 'POST'])
 def register(type):
     toekomstige_student = type == "future_student"
-    richtingen_db = Richting.query.all()
+    richtingen_db = Richting.query.order_by(Richting.name).all()
     richtingen = list()
     for richting in richtingen_db:
         richtingen.append(richting.name)
     locations = list()
-    for location in Locatie.query.all():
+    for location in Locatie.query.order_by(Locatie.name).all():
         locations.append(location.name)
     form = RegistrationForm()
     if form.validate_on_submit():
