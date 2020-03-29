@@ -88,9 +88,10 @@ def new_richting():
         return redirect(url_for('index'))
     return render_template('cc_new_richting.html', form=form)
 
-@app.route('/mentors/<richting>')
-def mentors(richting):
-    richting_db = Richting.query.filter_by(name=richting).first()
+@app.route('/mentors', methods=['GET'])
+def mentors():
+    richting = request.args["richting"]
+    richting_db = Richting.query.filter_by(name=richting).first_or_404()
     mentors = HuidigStudent.query.filter_by(richting=richting_db.id)
     return render_template('cc_users.html', richting=richting, mentors=mentors)
 
