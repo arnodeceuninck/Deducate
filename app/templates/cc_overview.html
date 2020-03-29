@@ -1,0 +1,42 @@
+{% extends "cc_base.html" %}
+
+{% block styles %}
+    .has-bg-img { background: url('/static/hero2.jpg')center center; background-size:cover; background-attachment:fixed;
+    }
+{% endblock %}
+
+{% block body %}
+    <section class="section">
+        <div class="container">
+            <h1 class="title">
+                Overzicht van de data die we verzameld hebben
+            </h1>
+            <div class="columns">
+                <div class="column">
+                    <h2 class="subtitle">Vrijwilligers</h2>
+                    <ul>
+                        {% for item in mentors %}
+                        <li>{{ item.name }} ({{ item.richting }})</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="column">
+                    <h2 class="subtitle">Toekomstige Studenten</h2>
+                    <ul>
+                        {% for item in future_students %}
+                        <li>{{ item.name }} ({{ item.richting }})</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="column">
+                    <h2 class="subtitle">Richtingen</h2>
+                    <ul>
+                        {% for item in richtingen %}
+                        <li>{{ item.name }} ({{ item.id }})</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

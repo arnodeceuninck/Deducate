@@ -95,6 +95,14 @@ def mentors():
     mentors = HuidigStudent.query.filter_by(richting=richting_db.id)
     return render_template('cc_users.html', richting=richting, mentors=mentors)
 
+@app.route('/overview')
+def overview():
+    richtingen = Richting.query.all()
+    mentors = HuidigStudent.query.all()
+    future_students = ToekomstigStudent.query.all()
+    return render_template('cc_overview.html', richtingen=richtingen, mentors=mentors, future_students=future_students)
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     # note that we set the 404 status explicitly
