@@ -88,6 +88,12 @@ def new_richting():
         return redirect(url_for('index'))
     return render_template('cc_new_richting.html', form=form)
 
+@app.route('/mentors/<richting>')
+def mentors(richting):
+    richting_db = Richting.query.filter_by(name=richting).first()
+    mentors = HuidigStudent.query.filter_by(richting=richting_db.id)
+    return render_template('cc_users.html', richting=richting, mentors=mentors)
+
 @app.errorhandler(404)
 def page_not_found(e):
     # note that we set the 404 status explicitly

@@ -1,0 +1,21 @@
+{% extends "cc_base.html" %}
+
+{% block styles %}
+    .has-bg-img { background: url('/static/hero2.jpg')center center; background-size:cover; background-attachment:fixed;
+    }
+{% endblock %}
+
+{% block body %}
+    <section class="section">
+        <div class="container">
+            <h1 class="title">
+                Here is a list of all people already studying {{ richting }}
+            </h1>
+            <ul>
+                {% for mentor in mentors %}
+                <li>{{ mentor.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+{% endblock %}
