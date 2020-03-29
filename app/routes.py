@@ -64,7 +64,7 @@ def register(type):
         #         send_mentor_email(ts, richting, form.email.data)
         # flash(str(i) + " matches found. You can find them in your mailbox. Be sure to check your spam folder.")
         return redirect(url_for('thanks'))
-    return render_template('cc_register.html', form=form, richtingen=richtingen)
+    return render_template('cc_register.html', form=form, richtingen=richtingen, locations=locations)
 
 
 @app.route('/thanks')
