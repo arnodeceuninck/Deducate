@@ -43,8 +43,8 @@
                     <div class="field">
                         {{ form.locatie(class="input", type="text", placeholder="Plaats", list="locaties") }}
                         <ul>
-                            {% for error in form.richting.errors %}
-                                <li>{{ error }} Dit kan je <a href="{{ url_for('new_richting') }}">hier</a> doen.</li>
+                            {% for error in form.locatie.errors %}
+                                <li>{{ error }}</li>
                             {% endfor %}
                         </ul>
                     </div>
