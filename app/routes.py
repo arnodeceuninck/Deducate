@@ -1,5 +1,5 @@
 from flask import render_template, flash, redirect, url_for, request
-from app.email import *
+from app.send_email import *
 from app.forms import *
 from app.models import *
 
@@ -59,6 +59,22 @@ def register(type):
 def thanks():
     return render_template('cc_thanks.html')
 
+@app.route('/new_richting', methods=['GET', 'POST'])
+def new_richting():
+    form = NewRichtingForm()
+    if form.validate_on_submit():
+        # Check whether richting already in database, add if required
+        richting = form.richting.data
+        richting_db = Richting.query.filter_by(name=richting).first()
+        if richting_db:
+            flash("De richting bestaat al.")
+        else:
+            new_richting = Richting(name=richting)
+            db.session.add(new_richting)
+            db.session.commit()
+            flash("De richting werd succesvol toegevoegd")
+        return redirect(url_for('index'))
+    return render_template('cc_new_richting.html', form=form)
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -74,10 +90,6 @@ def method_not_allowed(e):
 # Function for deliberatly creating an error (for testing the error mailing system)
 @app.route('/internal_server_error')
 def internal_server_error():
-    user = User(username="johndoe", firstname="John", lastname="Doe")
-    user.set_password("test")
-    db.session.add(user)
-    db.session.commit()
     return render_template("500.html", title="Internal error")
 
 
