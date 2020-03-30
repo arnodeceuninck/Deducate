@@ -1,0 +1,50 @@
+{% extends "cc_base.html" %}
+
+{% block metadata %}
+{% endblock %}
+
+{% block styles %}
+
+{% endblock %}
+
+{% block body %}
+    <section class="section">
+        <div class="container">
+            <h1 class="title">
+                Inloggen
+            </h1>
+            <h2 class="subtitle">
+                Vul de gegevens hieronder in. Je wachtwoord ontvang je via mail vanaf de site helemaal klaar is.
+            </h2>
+            <form action="" method="post" novalidate>
+                {{ form.hidden_tag() }}
+                <div class="container">
+                    <div class="field">
+                        {{ form.email(class="input", type="text", placeholder="Emailadres") }}
+                        <ul>
+                            {% for error in form.email.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="field">
+                        {{ form.password(class="input", type="password", placeholder="Wachtwoord") }}
+                        <ul>
+                            {% for error in form.password.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <br>
+                    <div class="level">
+                        <div class="level-left">
+                            <div class="buttons">
+                                {{ form.submit(class="button is-primary") }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}

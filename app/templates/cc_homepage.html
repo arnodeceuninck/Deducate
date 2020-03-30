@@ -1,0 +1,145 @@
+{% extends "cc_base.html" %}
+
+{% block metadata %}
+{% endblock %}
+
+{% block scripts %}
+    <link rel="stylesheet" href="https://wikiki.github.io/css/documentation.css?v=201911011043">
+    <script type="text/javascript"
+            src="https://cdn.jsdelivr.net/npm/bulma-tagsinput@2.0.0/dist/js/bulma-tagsinput.min.js"></script>
+{% endblock %}
+
+{% block styles %}
+
+{% endblock %}
+
+{% block body %}
+    <div class='columns'>
+        <div class='container profile'>
+            <div class='modal' id='edit-preferences-modal'>
+{#            <div class='modal is-active' id='edit-preferences-modal'>    #}
+                <div class='modal-background'></div>
+                <div class='modal-card'>
+                    <header class='modal-card-head'>
+                        <p class='modal-card-title'>Profiel bewerken</p>
+                        <button class='delete'></button>
+                    </header>
+                    <section class='modal-card-body'>
+                        <label class='label'>Naam</label>
+                        <p class='control'>
+                            <input class='input' value='{{ current_user.name }}' type='text'>
+                        </p>
+                        <label class='label'>Functie</label>
+                        <p class='control'>
+                            <input class='input' value='{{ current_user.name }}' type='text'>
+                        </p>
+                        <label class='label'>Richting</label>
+                        <p class='control'>
+                            <input class='input' value='{{ current_user.name }}' type='text'>
+                        </p>
+                        <label class='label'>Instelling</label>
+                        <p class='control'>
+                            <input class='input' value='{{ current_user.name }}' type='text'>
+                        </p>
+                        <label class='label'>Email</label>
+                        <p class='control'>
+                            <input class='input' placeholder='Email input' type='text' value='{{ current_user.email }}'>
+                            <span class='help is-danger'>This email is invalid</span>
+                        </p>
+                        <label class='label'>Type</label>
+                        <p class='control'>
+                            <label class="radio">
+                                <input id="type-0" name="type" type="radio" value="Info geven">
+                                <label for="type-0">Info geven</label>
+                            </label>
+                            <label class="radio">
+                                <input id="type-0" name="type" type="radio" value="Toekomstige student">
+                                <label for="type-0">Toekomstige student</label>
+                            </label>
+                        </p>
+                    </section>
+                    <footer class='modal-card-foot'>
+                        <a class='button is-primary modal-save'>Wijzigingen Opslaan</a>
+                        <a class='button modal-cancel'>Annuleren</a>
+                    </footer>
+                </div>
+            </div>
+
+            <div class='section profile-heading'>
+                <div class='columns is-mobile is-multiline'>
+                    <div class='column is-2'>
+                        <span class='header-icon user-profile-image'>
+                            <img alt='' src='{{ current_user.avatar(200) }}'>
+                        </span>
+                    </div>
+                    <div class='column name'>
+                        <p>
+                            <span class='title is-bold'>Mijn Profiel</span>
+                            <span class="icon is-large"><i class="fa fa-edit"></i></span><br>
+                        </p><br>
+                        <p class='tagline'>
+                            Naam: {{ current_user.name }} <br>
+                            {% if current_user.functie %}
+                                Functie: {{ current_user.functie }}<br>
+                            {% endif %}
+                            Richting: {{ current_user.richting_str() }} <br>
+                            Instelling: {{ current_user.locatie_str() }} <br>
+                            Email: {{ current_user.email }} <br>
+                            Type: {{ current_user.type() }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            {#            <script></script>#}
+            {#            Thanks: https://github.com/GeekLaunch/tags-input#}
+            <div class="input is-rounded tags-input has-icons-left" style="margin-bottom: 20px">
+                <span class="icon is-small is-left">
+                    <i class="fas fa-search"></i>
+                </span>
+                {% for filter in filters %}
+                    <span class="tag is-light is-medium" style="margin-left: 10px">{{ filter }}
+                        <button class="delete"></button></span>
+                {% endfor %}
+                <input placeholder="Verfijn resultaten" style="margin-left: 10px; border:0;outline:0; font-size: 18px">
+            </div>
+            <br>
+
+            <div class='columns is-mobile is-multiline'>
+
+                {% for user in suggestions %}
+                    <div class='column is-4-tablet is-12-mobile'>
+                        <div class='card'>
+                            <div class='card-content'>
+                                <div class='content'>
+                                    <div class="columns is-mobile">
+                                        <div class='column is-4'>
+                                            <span class='header-icon user-profile-image'>
+                                                <img alt='' src='{{ current_user.avatar(100) }}'>
+                                            </span>
+                                        </div>
+                                        <div class='column name'>
+                                            <p class='tagline'>
+                                                <span class="subtitle"
+                                                      style="font-size: medium; ">{{ user.name }}</span><br>
+                                                {% if user.functie %}
+                                                    {{ user.functie }}<br>
+                                                {% endif %}
+                                                {{ user.richting_str() }} <br>
+                                                {{ user.locatie_str() }} <br>
+                                            </p>
+                                            <a style="margin-top: auto;" class="button is-primary">Request contact</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+    <script>bulmaTagsinput.attach();</script>
+{% endblock %}
