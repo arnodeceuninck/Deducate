@@ -1,11 +1,14 @@
-from app import db, app, login
+from app import db, login
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from hashlib import md5
+import enum
+
 
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -40,10 +43,47 @@ class User(db.Model, UserMixin):
         else:
             return "Toekomstige student"
 
+    def connection(self, id):
+        connection = ContactRequest.query.filter_by(receiver_id=self.id).filter_by(sender_id=id).first()
+        if not connection:
+            connection = ContactRequest.query.filter_by(receiver_id=id).filter_by(sender_id=self.id).first()
+        if not connection:
+            return None
+        elif connection.status == ConnectStatus.pending:
+            if connection.sender_id == self.id:
+                return "pending-sent"
+            else:
+                return "pending-received"
+        elif connection.status == ConnectStatus.accepted:
+            return "accepted"
+        elif connection.status == ConnectStatus.rejected:
+            return "rejected"
+
+    @staticmethod
+    def default_functie(toekomstige_student):
+        if toekomstige_student:
+            return "Toekomstige Student"
+        else:
+            return "Student"
+
+
 class Richting(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True)
 
+
 class Locatie(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True)
+
+
+class ConnectStatus(enum.Enum):
+    pending = 1
+    accepted = 2
+    rejected = 3
+
+
+class ContactRequest(db.Model):
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    status = db.Column(db.Enum(ConnectStatus), default=ConnectStatus.pending)

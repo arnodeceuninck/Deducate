@@ -31,7 +31,7 @@
                         {{ form.richting(class="input", type="text", placeholder="Studierichting", list="richtingen") }}
                         <ul>
                             {% for error in form.richting.errors %}
-                                <li>{{ error }} Dit kan je <a href="{{ url_for('new_richting') }}">hier</a> doen.</li>
+                                <li>{{ error }} Dit kan je <a href="{{ url_for('auth.new_richting') }}">hier</a> doen.</li>
                             {% endfor %}
                         </ul>
                     </div>

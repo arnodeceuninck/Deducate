@@ -8,20 +8,45 @@ from flask_mail import Mail
 import logging
 from logging.handlers import SMTPHandler
 
-# app = Flask(__name__, static_url_path="/static")
-# app.config.from_object(Config)
-
-app = Flask(__name__)
-app.config.from_object(Config)
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-
-login = LoginManager(app)
+db = SQLAlchemy()
+migrate = Migrate()
+login = LoginManager()
 login.login_view = 'login'
+mail = Mail()
 
-mail = Mail(app)
 
-if not app.debug:
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
+
+    db.init_app(app)
+    migrate.init_app(app, db)
+    login.init_app(app)
+    mail.init_app(app)
+
+    from app.auth import bp as auth_bp
+    app.register_blueprint(auth_bp)
+
+    from app.chats import bp as chat_bp
+    app.register_blueprint(chat_bp)
+
+    from app.connections import bp as connections_bp
+    app.register_blueprint(connections_bp)
+
+    # from app.emails import bp as emails_bp
+    # app.register_blueprint(emails_bp)
+
+    from app.errors import bp as errors_bp
+    app.register_blueprint(errors_bp)
+
+
+    # if not app.debug and not app.testing:
+    #     init_mail_debug(app)
+
+    return app
+
+
+def init_mail_debug(app):
     if app.config['MAIL_SERVER']:
         auth = None
         if app.config['MAIL_USERNAME'] or app.config['MAIL_PASSWORD']:
@@ -37,4 +62,5 @@ if not app.debug:
         mail_handler.setLevel(logging.ERROR)
         app.logger.addHandler(mail_handler)
 
-from app import routes, models
+
+from app import models

@@ -92,7 +92,7 @@
 
 <nav class="navbar navigation" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <a class="navbar-item" href="{{ url_for('index') }}">
+        <a class="navbar-item" href="{{ url_for('auth.index') }}">
             <img src="/static/logo.svg" height="150" width="150">
         </a>
         <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
@@ -109,11 +109,11 @@
             <div class="navbar-item">
                 <div class="buttons">
                     {% if current_user.is_anonymous %}
-                        <a class="button is-light" href="{{ url_for('login') }}">
+                        <a class="button is-light" href="{{ url_for('auth.login') }}">
                             Login
                         </a>
                     {% else %}
-                        <a class="button is-light" href="{{ url_for('logout') }}">
+                        <a class="button is-light" href="{{ url_for('auth.logout') }}">
                             Logout
                         </a>
                     {% endif %}

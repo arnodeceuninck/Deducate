@@ -77,7 +77,8 @@
                     <div class='column name'>
                         <p>
                             <span class='title is-bold'>Mijn Profiel</span>
-                            <span class="icon is-large" onclick="editProfile()" style="cursor: pointer;"><i class="fa fa-edit"></i></span><br>
+                            <span class="icon is-large" onclick="editProfile()" style="cursor: pointer;"><i
+                                    class="fa fa-edit"></i></span><br>
                         </p><br>
                         <p class='tagline'>
                             Naam: {{ current_user.name }} <br>
@@ -118,7 +119,7 @@
                                         <div class='column is-4'>
                                             {#                                            <span class='header-icon user-profile-image'>#}
                                             <figure class="image"
-                                                    style="margin-left: auto; margin-right: auto; width: 100%">
+                                                    style="margin: auto;width: 100%">
                                                 <img class="is-rounded" alt='' src='{{ user.avatar(100) }}'>
                                             </figure>
                                             {#                                            </span>#}
@@ -133,7 +134,36 @@
                                                 {{ user.richting_str() }} <br>
                                                 {{ user.locatie_str() }} <br>
                                             </p>
-                                            <a style="margin-top: auto;" class="button is-primary">Request contact</a>
+                                            {% if current_user.connection(user.id) %}
+                                                {% if current_user.connection(user.id) == "pending-sent" %}
+                                                    <a style="margin-top: auto;" class="button"
+                                                       title="One of you has already made a request" disabled>Request
+                                                        sent</a>
+                                                {% elif current_user.connection(user.id) == "pending-received" %}
+                                                    <div class="buttons">
+                                                        <a style="margin-top: auto;" class="button is-success"
+                                                           href="{{ url_for("connections.request_reply", id=user.id, reply="accept") }}">Accept</a>
+                                                        <a style="margin-top: auto;" class="button is-danger"
+                                                           href="{{ url_for("connections.request_reply", id=user.id, reply="reject") }}">Reject</a>
+                                                    </div>
+                                                {% elif current_user.connection(user.id) == "accepted" %}
+                                                    <div class="buttons">
+                                                        <a style="margin-top: auto;" class="button is-primary"
+                                                           href="{{ url_for('chats.chats', id=user.id) }}">Start chat</a>
+                                                    </div>
+                                                {% elif current_user.connection(user.id) == "rejected" %}
+                                                    <div class="buttons">
+                                                        <a style="margin-top: auto;" class="button is-primary"
+                                                           href="" title="Your request has been rejected">Request
+                                                            contact</a>
+                                                    </div>
+                                                {% endif %}
+
+                                            {% else %}
+                                                <a style="margin-top: auto;" class="button is-primary"
+                                                   href="{{ url_for('connections.connection_request', id=user.id) }}">Request
+                                                    contact</a>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>

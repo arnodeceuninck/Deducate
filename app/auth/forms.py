@@ -1,12 +1,14 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, RadioField, DateField
-from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
-from app.models import *
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired, ValidationError, Email
+from app.models import Richting, User
+
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = StringField('Richting', validators=[])
     submit = SubmitField('Log in')
+
 
 class RegistrationForm(FlaskForm):
     name = StringField('Naam', validators=[DataRequired()])
@@ -23,7 +25,9 @@ class RegistrationForm(FlaskForm):
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
-            raise ValidationError('Gelieve een ander emailadres te gebruiken. Er bestaat al iemand met het opgegeven adres.')
+            raise ValidationError(
+                'Gelieve een ander emailadres te gebruiken. Er bestaat al iemand met het opgegeven adres.')
+
 
 class NewRichtingForm(FlaskForm):
     richting = StringField('Richting', validators=[DataRequired()])
